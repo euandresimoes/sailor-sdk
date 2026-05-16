@@ -221,7 +221,7 @@ export interface SailorPlugin {
   id: string;
   manifest: PluginManifest;
   auth: CredentialProvider;
-  methods: Record<string, (params: unknown, context?: PluginContext) => Promise<unknown>>;
+  methods: Record<string, (params: any, context?: PluginContext) => Promise<any>>;
   triggers?: Record<string, PluginTriggerHooks>;
   executionLifecycle?: PluginExecutionLifecycle;
 }

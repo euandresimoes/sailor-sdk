@@ -60,6 +60,23 @@ describe("SDK plugin contracts", () => {
     const typedPlugin: SailorPlugin = plugin;
     await expect(typedPlugin.methods.ping({})).resolves.toEqual({ pong: true });
   });
+
+  it("accepts plugin methods with specific parameter types", async () => {
+    const methods = {
+      async ping(params: { message: string }) {
+        return { echo: params.message };
+      },
+    };
+
+    const plugin: SailorPlugin = {
+      id: "external-demo",
+      manifest: validManifest,
+      auth: { type: "none" },
+      methods,
+    };
+
+    await expect(plugin.methods.ping({ message: "hello" })).resolves.toEqual({ echo: "hello" });
+  });
 });
 
 describe("manifest validation", () => {

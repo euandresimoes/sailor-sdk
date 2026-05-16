@@ -15,12 +15,17 @@ export type ManifestValidationResult =
       errors: string[];
     };
 
-const ajv = new AjvModule({
+const AjvCtor = AjvModule as unknown as {
+  new (options?: Record<string, unknown>): InstanceType<any>;
+};
+const addFormats = addFormatsModule as unknown as (ajv: InstanceType<any>) => void;
+
+const ajv = new AjvCtor({
   allErrors: true,
   strict: false,
 });
 
-addFormatsModule(ajv);
+addFormats(ajv);
 
 const validate = ajv.compile(manifestSchema);
 

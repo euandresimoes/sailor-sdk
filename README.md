@@ -1,17 +1,17 @@
-# @sailor/sdk
+# @auvexis/sailor-sdk
 
-TypeScript SDK for building external Sailor plugins.
+TypeScript SDK for building external Sailor plugins. By Auvexis.
 
 ## Install
 
 ```bash
-npm install @sailor/sdk
+npm install @auvexis/sailor-sdk
 ```
 
 ## Minimal plugin
 
 ```ts
-import { defineManifest, definePlugin } from "@sailor/sdk";
+import { defineManifest, definePlugin } from "@auvexis/sailor-sdk";
 
 const manifest = defineManifest({
   metadata: {
@@ -59,7 +59,7 @@ export default definePlugin({
 ## Validate a manifest
 
 ```ts
-import { validateManifest } from "@sailor/sdk";
+import { validateManifest } from "@auvexis/sailor-sdk";
 
 const result = validateManifest(manifest);
 

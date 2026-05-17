@@ -37,9 +37,6 @@ const manifest = defineManifest({
       responseSchema: {
         type: "object",
       },
-      ui: {
-        component: "card",
-      },
     },
   },
 });

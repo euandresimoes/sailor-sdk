@@ -54,6 +54,13 @@ function formatError(error: ErrorObject): string {
     return `${path} must be equal to one of the allowed values`;
   }
 
+  if (
+    error.keyword === "additionalProperties" &&
+    typeof error.params.additionalProperty === "string"
+  ) {
+    return `${path} must NOT have additional property '${error.params.additionalProperty}'`;
+  }
+
   return `${path} ${error.message ?? "is invalid"}`;
 }
 

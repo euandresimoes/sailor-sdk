@@ -56,7 +56,7 @@ export const manifestSchema = {
   $defs: {
     MethodDefinition: {
       type: "object",
-      required: ["metadata", "parameters", "responseSchema", "ui"],
+      required: ["metadata", "parameters", "responseSchema"],
       additionalProperties: false,
       properties: {
         metadata: {
@@ -73,9 +73,6 @@ export const manifestSchema = {
         },
         responseSchema: {
           $ref: "#/$defs/JSONSchemaResponse",
-        },
-        ui: {
-          $ref: "#/$defs/MethodUI",
         },
       },
     },
@@ -117,11 +114,9 @@ export const manifestSchema = {
     JSONSchemaResponse: {
       type: "object",
       required: ["type"],
+      additionalProperties: false,
       properties: {
         type: { enum: ["object", "array"] },
-        "x-sailor-display": {
-          enum: ["file", "folder", "media", "text", "generic"],
-        },
         properties: {
           type: "object",
           additionalProperties: { $ref: "#/$defs/JSONSchemaProperty" },
@@ -135,6 +130,7 @@ export const manifestSchema = {
     },
     JSONSchemaProperty: {
       type: "object",
+      additionalProperties: false,
       properties: {
         type: {
           anyOf: [
@@ -188,9 +184,6 @@ export const manifestSchema = {
           ],
         },
         "x-label": { type: "string" },
-        "x-sailor-display": {
-          enum: ["file", "folder", "media", "text", "generic"],
-        },
         "x-sailor-icon": { type: "string" },
         "x-dynamic-options": {
           type: "object",
@@ -223,47 +216,6 @@ export const manifestSchema = {
     JSONSchemaTypeName: {
       type: "string",
       enum: ["string", "number", "integer", "boolean", "object", "array", "null"],
-    },
-    MethodUI: {
-      type: "object",
-      required: ["component"],
-      properties: {
-        component: {
-          enum: ["table", "card", "text", "generic"],
-        },
-        download: {
-          type: "object",
-          required: ["field", "fileName", "mimeType"],
-          properties: {
-            field: { type: "string" },
-            fileName: { type: "string" },
-            mimeType: { type: "string" },
-          },
-        },
-        actions: {
-          type: "array",
-          items: {
-            type: "object",
-            required: ["label", "action", "parameters"],
-            properties: {
-              label: { type: "string" },
-              action: { type: "string" },
-              parameters: {
-                type: "object",
-                additionalProperties: { type: "string" },
-              },
-              visibleIf: {
-                type: "object",
-                required: ["field", "equals"],
-                properties: {
-                  field: { type: "string" },
-                  equals: {},
-                },
-              },
-            },
-          },
-        },
-      },
     },
   },
 } as const;

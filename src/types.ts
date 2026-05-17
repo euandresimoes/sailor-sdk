@@ -126,7 +126,6 @@ export interface JSONSchemaProperty {
     | "code"
     | "json";
   "x-label"?: string;
-  "x-sailor-display"?: "file" | "folder" | "media" | "text" | "generic";
   "x-sailor-icon"?: string;
   "x-dynamic-options"?: DynamicOptionsConfig;
   "x-visible-if"?: VisibleIfConfig;
@@ -141,31 +140,12 @@ export interface JSONSchemaObject {
 
 export interface JSONSchemaResponse {
   type: "object" | "array";
-  "x-sailor-display"?: "file" | "folder" | "media" | "text" | "generic";
   properties?: Record<string, JSONSchemaProperty>;
   required?: string[];
   items?: JSONSchemaProperty & {
     type?: JSONSchemaTypeName | JSONSchemaTypeName[];
     properties?: Record<string, JSONSchemaProperty>;
   };
-}
-
-export interface PluginMethodUI {
-  component: "table" | "card" | "text" | "generic";
-  download?: {
-    field: string;
-    fileName: string;
-    mimeType: string;
-  };
-  actions?: Array<{
-    label: string;
-    action: string;
-    parameters: Record<string, string>;
-    visibleIf?: {
-      field: string;
-      equals: unknown;
-    };
-  }>;
 }
 
 export interface PluginMethodManifest {
@@ -175,7 +155,6 @@ export interface PluginMethodManifest {
   };
   parameters: JSONSchemaObject;
   responseSchema: JSONSchemaResponse;
-  ui: PluginMethodUI;
 }
 
 export interface PluginTriggerManifest {

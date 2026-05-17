@@ -30,9 +30,6 @@ const validManifest = {
       responseSchema: {
         type: "object",
       },
-      ui: {
-        component: "card",
-      },
     },
   },
 } as const;
@@ -42,7 +39,7 @@ describe("SDK plugin contracts", () => {
     const manifest = defineManifest(validManifest);
 
     expect(manifest.metadata.id).toBe("external-demo");
-    expect(manifest.methods.ping.ui.component).toBe("card");
+    expect(manifest.methods.ping.responseSchema.type).toBe("object");
   });
 
   it("returns the same typed plugin from definePlugin", async () => {
@@ -107,7 +104,6 @@ describe("manifest validation", () => {
             type: "string",
           },
           responseSchema: {},
-          ui: {},
         },
       },
     });
@@ -119,6 +115,41 @@ describe("manifest validation", () => {
     expect(result.errors).toContain("methods.ping.metadata must have required property 'description'");
     expect(result.errors).toContain("methods.ping.parameters.type must be equal to one of the allowed values");
     expect(result.errors).toContain("methods.ping.responseSchema must have required property 'type'");
-    expect(result.errors).toContain("methods.ping.ui must have required property 'component'");
+  });
+
+  it("rejects legacy method ui metadata", () => {
+    const result = validateManifest({
+      ...validManifest,
+      methods: {
+        ping: {
+          ...validManifest.methods.ping,
+          ui: {
+            component: "card",
+            actions: [],
+          },
+        },
+      },
+    });
+
+    expect(result.valid).toBe(false);
+    expect(result.errors).toContain("methods.ping must NOT have additional property 'ui'");
+  });
+
+  it("rejects legacy x-sailor-display response metadata", () => {
+    const result = validateManifest({
+      ...validManifest,
+      methods: {
+        ping: {
+          ...validManifest.methods.ping,
+          responseSchema: {
+            type: "object",
+            "x-sailor-display": "generic",
+          },
+        },
+      },
+    });
+
+    expect(result.valid).toBe(false);
+    expect(result.errors).toContain("methods.ping.responseSchema must NOT have additional property 'x-sailor-display'");
   });
 });

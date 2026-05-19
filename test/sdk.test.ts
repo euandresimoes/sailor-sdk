@@ -85,6 +85,20 @@ describe("manifest validation", () => {
     expect(result.errors).toEqual([]);
   });
 
+  it("accepts optional light and dark metadata icons", () => {
+    const result = validateManifest({
+      ...validManifest,
+      metadata: {
+        ...validManifest.metadata,
+        iconLight: "https://cdn.example.com/light.svg",
+        iconDark: "https://cdn.example.com/dark.svg",
+      },
+    });
+
+    expect(result.valid).toBe(true);
+    expect(result.errors).toEqual([]);
+  });
+
   it("rejects invalid manifest identity and method shape with readable paths", () => {
     const result = validateManifest({
       metadata: {

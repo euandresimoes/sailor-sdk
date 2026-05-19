@@ -19,6 +19,8 @@ export const manifestSchema = {
         name: { type: "string" },
         description: { type: "string" },
         icon: { type: "string" },
+        iconLight: { type: "string" },
+        iconDark: { type: "string" },
         category: { type: "string" },
         author: { type: "string" },
         version: {
